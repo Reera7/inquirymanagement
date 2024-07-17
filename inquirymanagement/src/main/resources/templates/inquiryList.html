@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" th:href="@{/css/inquiry.css}" />
+    <title>問い合わせ一覧</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="system-name">問い合わせ管理システム</div>
+      <div class="management">問い合わせ管理</div>
+      <div class="management">ユーザ管理</div>
+      <div class="logout">ログアウト</div>
+      <div class="header-empty"></div>
+      <div class="login-name">ログイン名</div>
+    </header>
+
+    <div class="main">
+      <h1>問い合わせ一覧</h1>
+
+      <div class="search">
+        <h3>問い合わせ検索</h3>
+
+        <form class="search-container">
+          <div class="search-row">
+            <select class="search-select" name="client">
+              <option value="" selected hidden>顧客名を選択してください</option>
+              <option value=""></option>
+              <option value=""></option>
+              <option value=""></option>
+              <option value=""></option>
+              <option value=""></option>
+            </select>
+
+            <input
+              class="search-text"
+              type="text"
+              placeholder="問い合わせ者を入力してください"
+              name="inquiryPerson"
+            />
+          </div>
+
+          <div class="search-row">
+            <textarea
+              class="search-area"
+              placeholder="問い合わせ内容を入力してください"
+              name="inquiryContent"
+            ></textarea>
+          </div>
+
+          <div class="search-row">
+            <select class="search-select" name="status">
+              <option value="" selected hidden>
+                対応状況を選択してください
+              </option>
+              <option value="">未対応</option>
+              <option value="">対応済み</option>
+              <option value="">対応中</option>
+            </select>
+
+            <select class="search-select" name="manager">
+              <option value="" selected hidden>担当者を選択してください</option>
+              <option value=""></option>
+              <option value=""></option>
+              <option value=""></option>
+              <option value=""></option>
+              <option value=""></option>
+            </select>
+          </div>
+
+          <div class="search-row">
+            <div class="search-block">
+              <div class="search-accept">受付日</div>
+              <input class="search-date" type="date" name="acceptDate" />
+            </div>
+
+            <div class="search-block">
+              <div class="search-accept">～</div>
+              <input class="search-date" type="date" name="completeDate" />
+            </div>
+          </div>
+
+          <div class="search-row">
+            <input class="btn" type="submit" value="検索" />
+          </div>
+        </form>
+      </div>
+
+      <form class="on-table" th:action="@{/registerView}">
+        <button class="btn" type="submit">新規登録</button>
+        <div class="on-table-empty"></div>
+        <div class="number">〇〇件</div>
+      </form>
+
+      <div class="table">
+        <div class="table-row">
+          <div class="data">対応状況</div>
+          <div class="data">顧客名</div>
+          <div class="data">問い合わせ者</div>
+          <div class="inquiry-data">問い合わせ内容</div>
+          <div class="data">担当者</div>
+          <div class="data">受付日</div>
+        </div>
+
+        <a
+          class="table-row"
+          th:each="inquiryDto : ${inquiryList}"
+          th:object="${inquiryDto}"
+          th:href="@{/editView/{id} (id = *{inquiryId})}"
+        >
+          <div class="data" th:text="*{statusName}"></div>
+          <div class="data" th:text="*{clientName}"></div>
+          <div class="data" th:text="*{inquiryPerson}"></div>
+          <div class="inquiry-data" th:text="*{inquiryContent}"></div>
+          <div class="data" th:text="*{managerName}"></div>
+          <div class="data" th:text="*{acceptAt}"></div>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>
